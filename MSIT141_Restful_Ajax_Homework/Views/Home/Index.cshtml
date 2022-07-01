@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@section Styles{
+<style>
+    td {
+        border: solid black 2px
+    }
+</style> 
+
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<input type="button" id="btn1" value="產生表格" />
+<div id="div1"></div>
+@section Scripts{ 
+    <script>
+        //JSON資料
+        var emp = { "employees": [{ "name": "Tom", "workYear": "3", "salary": "35000" }, { "name": "Jack", "workYear": "5", "salary": "40000" }, { "name": "Mary", "workYear": "7", "salary": "45000" }, { "name": "Gergo", "workYear": "9", "salary": "50000" }, { "name": "Mandy", "workYear": "11", "salary": "55000" }] };
+        //產生表格
+        let s = "<table><th><tr>";
+        $('#btn1').click(function () {
+            for (let item in emp.employees[0]) {
+                s += `<td>${item}</td>`
+            }
+            s+="</tr></th>"
+            for (let i = 0; i < emp.employees.length; i++) {
+                s += `<tr><td>${emp.employees[i].name}</td><td>${emp.employees[i].workYear}</td><td>${emp.employees[i].salary}</td></tr>`
+            }
+            s +="</table >"
+            $('#div1').append(s)
+            //document.write(s)
+        })
+
+
+
+    </script>
+
+}
