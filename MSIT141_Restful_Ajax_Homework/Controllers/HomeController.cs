@@ -47,10 +47,22 @@ namespace MSIT141_Restful_Ajax_Homework.Controllers
         {
             return View();
         }
-        public IActionResult LoadAddress()
+        public IActionResult LoadCity()
         {
-            return Json(_context.Addresses);
+            var cities = _context.Addresses.Select(a => a.City).Distinct();
+            return Json(cities);
         }
+        public IActionResult LoadDistrict(string city)
+        {
+            var districts = _context.Addresses.Where(a => a.City == city).Select(d => d.SiteId).Distinct();
+            return Json(districts);
+        }
+        public IActionResult LoadRoad(string district)
+        {
+            var roads = _context.Addresses.Where(a => a.SiteId == district).Select(r => r.Road);
+            return Json(roads);
+        }
+
         public IActionResult LoginCheck(string name)
         {
             var exists = _context.Members.Any(m => m.Name == name);

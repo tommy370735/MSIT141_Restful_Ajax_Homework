@@ -5,8 +5,8 @@
 
 <h1>Address</h1>
 
-<select id="select1"></select>
-<select id="select2"></select>
+<select id="select1" name="city"></select>
+<select id="select2" name="district"></select>
 <select id="select3"></select>
 
 @section Scripts{
@@ -16,18 +16,49 @@
     const selRoad = document.querySelector("#select3");
 
         async function LoadAddress() {
-            const c_城市0 = await fetch("@Url.Content("~/Home/LoadAddress")");
-             
 
-            const c_城市1 = await c_城市0.json();
-            c_城市1.forEach(cty => {
-                console.log(cty.City)
+            const c0 = await fetch("@Url.Content("~/Home/LoadCity")");
+            const c1 = await c0.json();
+            c1.forEach(c2 => {
+                const opt1 = new Option(c2, c2);
+                selCity.options.add(opt1);
             })
-
-
-
+            addDistrict();
         }
 
+            async function addDistrict() {
+                const selectedCity = selCity.options[selCity.selectedIndex].value;
+                const d0 = await fetch("@Url.Content("~/Home/LoadDistrict")" +`?city=${selectedCity}`);
+                const d1 = await d0.json();
+                d1.forEach(d2 => {
+                    const opt2 = new Option(d2, d2);
+                    selDistrict.options.add(opt2);
+                })
+                addRoad();
+        }
+              async function addRoad() {
+                  const selectedDistrict = selDistrict.options[selDistrict.selectedIndex].value;
+                  const r0 = await fetch("@Url.Content("~/Home/LoadRoad")" + `?district=${selectedDistrict}`);
+                const r1 = await r0.json();
+                r1.forEach(r2 => {
+                    const opt3 = new Option(r2, r2);
+                    selRoad.options.add(opt3);
+                })
+        }
         LoadAddress();
+
+        selCity.addEventListener("change", () => {
+            selDistrict.options.length = 0;
+            selRoad.options.length = 0;
+            addDistrict();
+            addRoad();
+        })
+        selDistrict.addEventListener("change", () => {
+            selRoad.options.length = 0;
+            addRoad();
+        })
+
+
+
     </script>
 }
