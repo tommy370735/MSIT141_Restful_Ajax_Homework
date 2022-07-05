@@ -1,0 +1,65 @@
+﻿@model IEnumerable<MSIT141_Restful_Ajax_Homework.Models.Member>
+
+@{
+    ViewData["Title"] = "Homework2";
+}
+
+<h1>Homework2</h1>
+
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <form method="post" enctype="application/x-www-form-urlencoded" name="userFormData">
+            @*使用此方法：form和所有輸入資料的欄位皆須命名(name)*@
+            <div class="form-group">
+                <label for="InputName">姓名</label>
+                <input type="text" class="form-control" id="InputName" name="name">
+                <small id="nameHelp" class="form-text text-muted"></small>
+            </div>
+            <div class="form-group">
+                <label for="InputEmail">電子郵件</label>
+                <input type="text" class="form-control" id="InputEmail" name="email">
+            </div>
+            <div class="form-group">
+                <label for="InputEmail">年紀</label>
+                <input type="number" class="form-control" id="InputAge" name="age">
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+        <div class="alert alert-info" id="div1"></div>
+    </div>
+    <div class="col-3"></div>
+</div>
+
+@section Scripts{
+    <script>
+        const txtName = $('#InputName');
+        const nameHelp = $("#nameHelp");
+
+        txtName.blur((event) => {
+            event.preventDefault();
+            const xhr = new XMLHttpRequest();
+
+            xhr.addEventListener("load", () => {
+                const data = xhr.responseText;
+                if (txtName.val() === "") {
+                    nameHelp.html("請輸入姓名。")
+                }
+                else {
+                    if (data == "True") {
+                        nameHelp.html("該姓名已被使用。")
+                    }
+                    else {
+                        nameHelp.html("此名稱可使用。")
+                    }
+                }
+
+            })
+
+            xhr.open("GET", "@Url.Content("~/Home/LoginCheck")" + `?name=${txtName.val()}`);
+            xhr.send();
+        })
+
+    </script>
+}

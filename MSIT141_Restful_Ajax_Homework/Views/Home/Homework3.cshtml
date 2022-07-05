@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewData["Title"] = "Address";
+}
+
+<h1>Address</h1>
+
+<select id="select1"></select>
+<select id="select2"></select>
+<select id="select3"></select>
+
+@section Scripts{
+    <script>
+    const selCity = document.querySelector("#select1");
+    const selDistrict = document.querySelector("#select2");
+    const selRoad = document.querySelector("#select3");
+
+        async function LoadAddress() {
+            const c_城市0 = await fetch("@Url.Content("~/Home/LoadAddress")");
+             
+
+            const c_城市1 = await c_城市0.json();
+            c_城市1.forEach(cty => {
+                console.log(cty.City)
+            })
+
+
+
+        }
+
+        LoadAddress();
+    </script>
+}
